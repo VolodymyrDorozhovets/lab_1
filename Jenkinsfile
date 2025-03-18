@@ -6,27 +6,35 @@ pipeline
     {
         stage('Start')
         {
-            steps {echo 'Lab_1: nginx/custom'}
+            steps { echo 'Lab_2: started by GitHub' }
         }
 
-        stage('Build nginx/custom')
+    stage('Image build')
+    {
+        steps
         {
-            steps {sh 'docker build -t nginx/custom:latest .'}
+            sh "docker build -t labs:latest ."
+            sh "docker tag labs volodymyrdorozhovets/labs:latest"
+            sh "docker tag labs volodymyrdorozhovets/labs:$BUILD_NUMBER"
         }
+    }
 
-        stage('Test nginx/custom')
+    stage('Push to registry')
+    {
+        steps
         {
-            steps {echo 'Pass'}
+            withDockerRegistry([ credentialsId: "volodya_docker_access", url: "" ])
+            {
+                sh "docker push volodymyrdorozhovets/labs:latest"
+                sh "docker push volodymyrdorozhovets/labs:$BUILD_NUMBER"
+            }
         }
+    }
 
-        stage('Deploy nginx/custom')
-        {
-            steps {sh "docker run -d -p 80:80 nginx/custom:latest"}
-        }
-
-	stage('Finish')
-	{
-	    steps {echo 'Finish'}
-	}
+    stage('Deploy image')
+    {
+        steps { sh "docker run -d -p 80:80 volodymyrdorozhovets/labs" }
+    }
     }
 }
+
