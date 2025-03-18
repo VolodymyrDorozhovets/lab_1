@@ -35,6 +35,12 @@ pipeline
     {
         steps { sh "docker run -d -p 80:80 volodymyrdorozhovets/labs" }
     }
+
+    stage('Finish')
+    {
+        steps { echo "Finish" }
+    }
+
     }
 }
 
