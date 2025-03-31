@@ -37,10 +37,10 @@ pipeline
             steps {sh "docker run -d -p 80:80 nginx/custom:latest"}
         }
 
-	    stage('Finish')
-	    {
-	        steps {echo 'Finish Lab_3'}
-	    }
+	stage('Finish')
+	{
+	    steps {echo 'Finish Lab_3'}
+	}
     }
 }
 
