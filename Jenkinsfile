@@ -2,17 +2,23 @@ pipeline
 {
     agent any
 
-    options([office365ConnectorWebhooks([webhook([name('Teams-O365'),
-                                                     url('https://lpnu.webhook.office.com/webhookb2/603b91a6-aa98-4803-9908-2efd3ebe2dc3@7631cd62-5187-4e15-8b8e-ef653e366e7a/JenkinsCI/c9feaeb5c0ac46fbb5e721b57d7cf565/a6c64572-9f27-481f-8779-ce4ae8f95568/V2cTMKQPKYUpfSqRdZ2vxyrxj7FP2qvayb2ZULjos5akg1'),
-                                                     startNotification(false),
-                                                     notifySuccess(true),
-                                                     notifyAborted(false),
-                                                     notifyNotBuilt(false),
-                                                     notifyUnstable(true),
-                                                     notifyFailure(true),
-                                                     notifyBackToNormal(true),
-                                                     notifyRepeatedFailure(false),
-                                                     timeout(30000)])])])
+    options {
+        office365ConnectorWebhooks([
+            webhook([
+                name('Teams-O365'),
+                url('https://lpnu.webhook.office.com/webhookb2/603b91a6-aa98-4803-9908-2efd3ebe2dc3@7631cd62-5187-4e15-8b8e-ef653e366e7a/JenkinsCI/c9feaeb5c0ac46fbb5e721b57d7cf565/a6c64572-9f27-481f-8779-ce4ae8f95568/V2cTMKQPKYUpfSqRdZ2vxyrxj7FP2qvayb2ZULjos5akg1'),
+                startNotification(false),
+                notifySuccess(true),
+                notifyAborted(false),
+                notifyNotBuilt(false),
+                notifyUnstable(true),
+                notifyFailure(true),
+                notifyBackToNormal(true),
+                notifyRepeatedFailure(false),
+                timeout(30000)
+            ])
+        ])
+    }
 
     stages
     {
@@ -37,3 +43,4 @@ pipeline
 	    }
     }
 }
+
