@@ -1,45 +1,65 @@
-pipeline {
+pipeline
+{
     agent any
 
-    environment {
-        webhookUrl = sh(script: 'hcp vault-secrets secrets open teams_microsoft_webhook | grep "Value:" | awk \'{print $2}\'', returnStdout: true).trim()
-    }
-
-    stages {
-        stage('Start') {
-            steps {
+    stages
+    {
+        stage('Start')
+        {
+            steps
+            {
                 echo 'Start Lab_7'
             }
         }
-        
-        stage('Verify webhookUrl') {
-            steps {
-                echo "Webhook URL: ${webhookUrl}"
+
+        stage('Auth to HCP')
+        {
+            steps
+            {
+                withCredentials([usernamePassword(credentialsId: 'hcp', usernameVariable: 'MY_ID', passwordVariable: 'MY_SECRET')])
+                {
+                    script
+                    {
+                        sh hcp auth login --client-id $MY_ID --client-secret $MY_SECRET
+                    }
+                }
             }
         }
 
-        stage('Build nginx/custom') {
-            steps {
+        stage('Build nginx/custom')
+        {
+            steps
+            {
                 sh 'docker build -t nginx/custom:latest .'
             }
         }
 
-        stage('Deploy nginx/custom') {
-            steps {
+        stage('Deploy nginx/custom')
+        {
+            steps
+            {
                 sh 'docker run -d -p 80:80 nginx/custom:latest'
             }
         }
 
-        stage('Finish') {
-            steps {
-                echo 'Finish Lab_3'
+        stage('Finish')
+        {
+            steps
+            {
+                echo 'Finish Lab_7'
             }
         }
-        
     }
 
-    post {
-        success {
+    environment
+    {
+        webhookUrl = sh(script: 'hcp vault-secrets secrets open teams_microsoft_webhook --format=json | jq -r .static_version.value', returnStdout: true).trim()
+    }
+
+    post
+    {
+        success
+        {
             office365ConnectorSend(
                 webhookUrl: webhookUrl,
                 message: "✅ Build success!",
@@ -48,7 +68,8 @@ pipeline {
             )
         }
 
-        failure {
+        failure
+        {
             office365ConnectorSend(
                 webhookUrl: webhookUrl,
                 message: "❌ Build failed!",
