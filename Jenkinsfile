@@ -30,6 +30,15 @@ pipeline
                 }
             }
         }
+        
+        stage('Init HCP')
+        {
+            steps
+            {
+                sh 'hcp profile init --vault-secrets'
+            }
+        }
+
 
         stage('Build nginx/custom')
         {
