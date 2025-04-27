@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        webhookUrl = sh(script: 'hcp vault-secrets secrets open teams_microsoft_webhook', returnStdout: true).trim()
+        webhookUrl = sh(script: 'hcp vault-secrets secrets open teams_microsoft_webhook | grep "Value:" | awk \'{print $2}\'', returnStdout: true).trim()
     }
 
     stages {
