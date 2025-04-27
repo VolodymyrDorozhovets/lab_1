@@ -2,11 +2,6 @@ pipeline
 {
     agent any
 
-    environment
-    {
-        webhookUrl = ''
-    }
-
     stages
     {
         stage('Start')
