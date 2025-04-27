@@ -14,7 +14,7 @@ pipeline {
         
         stage('Verify webhookUrl') {
             steps {
-                echo "Webhook URL: ${webhookUrl}"  // Виведення значення webhookUrl
+                echo "Webhook URL: ${webhookUrl}"
             }
         }
 
