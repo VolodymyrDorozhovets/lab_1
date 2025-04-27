@@ -2,6 +2,11 @@ pipeline
 {
     agent any
 
+    environment
+    {
+        webhookUrl = ''
+    }
+
     stages
     {
         stage('Start')
@@ -51,13 +56,16 @@ pipeline
         }
     }
 
-    environment
-    {
-        webhookUrl = sh(script: 'hcp vault-secrets secrets open teams_microsoft_webhook --format=json | jq -r .static_version.value', returnStdout: true).trim()
-    }
-
     post
     {
+        always
+        {
+            script
+            {
+                env.webhookUrl = sh(script: 'hcp vault-secrets secrets open teams_microsoft_webhook --format=json | jq -r .static_version.value', returnStdout: true).trim()
+            }
+        }
+
         success
         {
             office365ConnectorSend(
