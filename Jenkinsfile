@@ -29,6 +29,12 @@ pipeline {
                 echo 'Finish Lab_3'
             }
         }
+        
+        stage('Verify webhookUrl') {
+            steps {
+                echo "Webhook URL: ${webhookUrl}"  // Виведення значення webhookUrl
+            }
+        }
     }
 
     post {
