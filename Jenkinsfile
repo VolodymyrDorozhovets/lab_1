@@ -25,7 +25,8 @@ pipeline
                 {
                     script
                     {
-                    	 echo $MY_SECRET
+                        echo 'TEST'
+                    	 echo 'Test12' $MY_SECRET
                     	 echo $MY_ID
                         sh hcp auth login --client-id $MY_ID --client-secret $MY_SECRET
                     }
