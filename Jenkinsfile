@@ -35,7 +35,7 @@ pipeline
         {
             steps
             {
-                sh 'hcp profile init --vault-secrets'
+                sh 'hcp profile set vault-secrets/app lab-7'
             }
         }
 
