@@ -11,6 +11,12 @@ pipeline {
                 echo 'Start Lab_7'
             }
         }
+        
+        stage('Verify webhookUrl') {
+            steps {
+                echo "Webhook URL: ${webhookUrl}"  // Виведення значення webhookUrl
+            }
+        }
 
         stage('Build nginx/custom') {
             steps {
@@ -30,11 +36,6 @@ pipeline {
             }
         }
         
-        stage('Verify webhookUrl') {
-            steps {
-                echo "Webhook URL: ${webhookUrl}"  // Виведення значення webhookUrl
-            }
-        }
     }
 
     post {
